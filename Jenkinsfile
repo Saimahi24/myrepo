@@ -21,6 +21,7 @@ pipeline
         {
             steps
             {
+                input message: 'Need for approval', submitter: 'Deliver'
               sh 'scp /var/lib/jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@18.117.75.184:/var/lib/tomcat9/webapps/testing.war'
             }
         }
