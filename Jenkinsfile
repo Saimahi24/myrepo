@@ -17,12 +17,12 @@ pipeline
                 sh 'mvn package'
             }
         }
-         stage('ContinousDeploy')
+          stage('ContinousDeploy')
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: 'b62cda21-84dc-4188-8e01-9b4d2d78dfe7', path: '', url: 'http://172.31.3.91:8080/')], contextPath: 'testapp', war: '**/*.war'
+              sh 'scp /var/lib/jenkins/workspace/DeclarativePipeline/webapp/target/webapp.war ubuntu@18.117.75.184:/var/lib/tomcat9/webapps/testing.war'
             }
         }
-       }
+    }
 }
