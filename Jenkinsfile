@@ -45,7 +45,7 @@ pipeline
                 {
                     try
                     {
-                      lib.gitdeploy("SharedLibrary","18.190.207.36","testing.war")
+                      lib.gitdeploy("SharedLibrary1","18.190.207.36","testing.war")
                     }
                     catch(Exception e3){
                       mail bcc: '', body: 'deployment', cc: '', from: '', replyTo: '', subject: 'continous deploy not working', to: 'ab@gmail.com'   
