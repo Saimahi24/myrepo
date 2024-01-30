@@ -1,3 +1,4 @@
+@Library('cicd')_
 pipeline
 {
     agent any
@@ -7,22 +8,51 @@ pipeline
         {
             steps
             {
-               git 'https://github.com/Saimahi24/myrepo.git' 
-            }
+                script
+                {
+                    try
+                    {
+                     lib.gitdownload("myrepo")
+                    }
+                    catch(Exception e){
+                        mail bcc: '', body: 'Git not downloaded', cc: '', from: '', replyTo: '', subject: 'continous download not working', to: 'ab@gmail.com'
+                        exit(1)
+                    }
+                }
+            }    
         }
          stage('ContinousBuild')
         {
             steps
             {
-                sh 'mvn package'
+                script
+                {
+                    try
+                    {
+                       lib.gitbuild()
+                    }
+                    catch(Exception e2){
+                         mail bcc: '', body: 'artifacts not created', cc: '', from: '', replyTo: '', subject: 'continous build not working', to: 'ab@gmail.com'
+                    }
+                }
             }
         }
-         stage('ContinousDeploy')
+          stage('ContinousDeploy')
         {
             steps
             {
-                deploy adapters: [tomcat9(credentialsId: 'b62cda21-84dc-4188-8e01-9b4d2d78dfe7', path: '', url: 'http://172.31.3.91:8080/')], contextPath: 'testapp', war: '**/*.war'
-            }
+                script
+                {
+                    try
+                    {
+                      lib.gitdeploy("SharedLibrary","18.190.207.36","testing.war")
+                    }
+                    catch(Exception e3){
+                      mail bcc: '', body: 'deployment', cc: '', from: '', replyTo: '', subject: 'continous deploy not working', to: 'ab@gmail.com'   
+                    }
+                }
+             }
         }
-       }
+    }
 }
+
