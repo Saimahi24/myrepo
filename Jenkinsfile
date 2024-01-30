@@ -41,6 +41,7 @@ pipeline
         {
             steps
             {
+
                 script
                 {
                     try
@@ -51,7 +52,8 @@ pipeline
                       mail bcc: '', body: 'deployment', cc: '', from: '', replyTo: '', subject: 'continous deploy not working', to: 'ab@gmail.com'   
                     }
                 }
-             }
+          
+            }
         }
     }
 }
